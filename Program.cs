@@ -3,7 +3,7 @@ namespace Api_Learn
 {
     public class Program
     {
-        public static void Main(string[] args, Microsoft.AspNetCore.Diagnostics.StatusCodeContext context1)
+        public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
