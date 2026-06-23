@@ -1,48 +1,48 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 [ApiController]
 [Route("api/[controller]")]
-public class itemsController : ControllerBase
+public class ItemsController : ControllerBase
 {
-    public static List<int> IdQueue = new List<int>();
-    public static List<Json> Data = new List<Json>();
+    public static List<int> idQueue = new List<int>();
+    public static List<Json> data = new List<Json>();
     [HttpGet]
     public IActionResult Get()
     {
-        return Data.Count > 0 ? Ok(Data) : NotFound("Data not found");
+        return data.Count > 0 ? Ok(data) : NotFound("Data not found");
     }
     [HttpPost]
     public IActionResult AddElement([FromBody] string label)
     {
-        var Temp = new Json
+        var temp = new Json
         {
-            Id = IdQueue.Count > 0 ? IdQueue[0] : Data.Count + 1,
-            Label = label,
-            Status = "todo"
+            id = idQueue.Count > 0 ? idQueue[0] : data.Count + 1,
+            label = label,
+            status = "todo"
         };
-        IdQueue.Remove(Temp.Id);
-        Data.Add(Temp);
-        return Ok(Data);
+        idQueue.Remove(temp.id);
+        data.Add(temp);
+        return Ok(data);
     }
     [HttpDelete("{id}")]
     public IActionResult DeleteElement(int id)
     {
 
-        if (Data.RemoveAll(x => x.Id == id) == 1)
+        if (data.RemoveAll(x => x.id == id) == 1)
         {
-            IdQueue.Add(id);
+            idQueue.Add(id);
         }
-        return Ok(Data);
+        return Ok(data);
     }
     [HttpPut]
     public IActionResult UpdateElement([FromBody] Json updatedElement)
     {
-        var existingElement = Data.FirstOrDefault(x => x.Id == updatedElement.Id);
+        var existingElement = data.FirstOrDefault(x => x.id == updatedElement.id);
         if (existingElement == null)
         {
             return NotFound("Element not found");
         }
-        existingElement.Label = updatedElement.Label;
-        existingElement.Status = updatedElement.Status;
+        existingElement.label = updatedElement.label;
+        existingElement.status = updatedElement.status;
         return Ok(existingElement);
 
     }
@@ -54,9 +54,9 @@ public class itemsController : ControllerBase
     
     public record Json
     {
-        public int Id { get; set; }
-        public string? Label { get; set; }
-        public string? Status { get; set; } // "done" or "todo"
+        public int id { get; set; }
+        public string? label { get; set; }
+        public string? status { get; set; } // "done" or "todo"
 
     }
 
